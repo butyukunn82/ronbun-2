@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1733">
+  <meta name="description" content="2026年度 ITストラテジスト試験対応の反射型CBT学習アプリ">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>ST反射トレーナー 2026</title>
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-nav="home" aria-label="ホームへ">
+      <span class="brand-mark">ST</span><span><b>反射トレーナー</b><small>2026 現行試験</small></span>
+    </button>
+    <div class="top-actions">
+      <span id="streakBadge" class="streak">0日継続</span>
+      <button id="installBtn" class="btn secondary compact">インストール</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="view-home" class="view active">
+      <div class="home-lead">
+        <div>
+          <p class="eyebrow">今日の学習</p>
+          <h1>出題意図から、答えまで。</h1>
+          <p id="todayMessage" class="muted">復習期限と弱点から、今日の問題を選びます。</p>
+        </div>
+        <div class="lead-actions">
+          <button id="startZero" class="btn primary large">何もわからない状態から始める</button>
+          <button id="startToday" class="btn secondary large">今日の20問</button>
+        </div>
+      </div>
+
+      <div class="metric-grid">
+        <article class="metric"><span>総合習熟度</span><strong id="metricMastery">0%</strong></article>
+        <article class="metric"><span>今日の復習</span><strong id="metricDue">0問</strong></article>
+        <article class="metric"><span>学習済み</span><strong id="metricSeen">0問</strong></article>
+        <article class="metric"><span>平均回答</span><strong id="metricTime">--</strong></article>
+      </div>
+
+      <div class="section-heading"><div><p class="eyebrow">科目別トレーニング</p><h2>一つずつ身につける</h2></div></div>
+      <div class="subject-grid">
+        <article class="subject-card a1">
+          <div class="subject-top"><span class="subject-code">A-1</span><span id="a1Rate" class="rate">0%</span></div>
+          <h3>共通知識を反射化</h3><p>用語直結→混同分離→4択へ段階的に進みます。</p>
+          <div class="card-actions"><button class="btn primary" data-start="a1">学習する</button><button class="btn text" data-mock="a1">CBT形式</button></div>
+        </article>
+        <article class="subject-card a2">
+          <div class="subject-top"><span class="subject-code">A-2</span><span id="a2Rate" class="rate">0%</span></div>
+          <h3>ST専門知識を反射化</h3><p>経営戦略・システム企画・法務・セキュリティを固めます。</p>
+          <div class="card-actions"><button class="btn primary" data-start="a2">学習する</button><button class="btn text" data-mock="a2">CBT形式</button></div>
+        </article>
+        <article class="subject-card b1">
+          <div class="subject-top"><span class="subject-code">B-1</span><span id="b1Rate" class="rate">0%</span></div>
+          <h3>根拠を見つけて言い換える</h3><p>設問要求→根拠抽出→言い換え→字数圧縮を分解練習します。</p>
+          <div class="card-actions"><button class="btn primary" data-start="b1">学習する</button><button class="btn text" data-mock="b1">CBT形式</button></div>
+        </article>
+        <article class="subject-card b2">
+          <div class="subject-top"><span class="subject-code">B-2</span><span id="b2Rate" class="rate">0%</span></div>
+          <h3>型から論文へ組み立てる</h3><p>出題意図→因果→骨子→部分作文→120分論述へ進みます。</p>
+          <div class="card-actions"><button class="btn primary" data-start="b2">学習する</button><button class="btn text" data-nav="cases">経験カード</button></div>
+        </article>
+      </div>
+      <div class="memory-strip">
+        <div><p class="eyebrow">補助輪を外す</p><h2>何も見ずに思い出す練習</h2><p class="muted">覚えた用語や解答の型を、自分の言葉で頭から取り出します。</p></div>
+        <button id="startRecall" class="btn secondary">想起練習を始める</button>
+      </div>
+    </section>
+
+    <section id="view-study" class="view">
+      <div class="session-bar">
+        <button id="exitSession" class="btn secondary compact">終了</button>
+        <div class="session-progress"><div><b id="sessionTitle">トレーニング</b><span id="questionCounter">1 / 10</span></div><div class="progress-track"><span id="progressBar"></span></div></div>
+        <span id="answerTimer" class="timer">00:00</span>
+      </div>
+      <article id="questionCard" class="question-card"></article>
+    </section>
+
+    <section id="view-glossary" class="view">
+      <div class="page-head"><div><p class="eyebrow">用語解説</p><h1>意味から使い方まで</h1></div><input id="glossarySearch" type="search" placeholder="用語・意味を検索"></div>
+      <div id="glossaryList" class="glossary-grid"></div>
+    </section>
+
+    <section id="view-cases" class="view">
+      <div class="page-head"><div><p class="eyebrow">B-2 経験カード</p><h1>論文の材料を整える</h1><p class="muted">入力内容はこの端末だけに保存されます。</p></div><button id="newCase" class="btn primary">新しい経験を登録</button></div>
+      <div class="case-layout">
+        <form id="caseForm" class="panel form-panel">
+          <input id="caseId" type="hidden">
+          <label>事例名<input id="caseTitle" required placeholder="例：勤怠管理システムの統合"></label>
+          <label>事業・組織の概要<textarea id="caseBackground" rows="3"></textarea></label>
+          <label>環境変化と経営課題<textarea id="caseProblem" rows="3"></textarea></label>
+          <label>数値目標<textarea id="caseGoal" rows="2" placeholder="例：月間作業時間を30％削減"></textarea></label>
+          <label>調査方法と判明した真因<textarea id="caseRoot" rows="3"></textarea></label>
+          <label>経営施策とIT施策<textarea id="caseAction" rows="3"></textarea></label>
+          <label>関係者との調整<textarea id="caseStakeholder" rows="3"></textarea></label>
+          <label>リスクと対策<textarea id="caseRisk" rows="3"></textarea></label>
+          <label>KPI・成果・改善<textarea id="caseResult" rows="3"></textarea></label>
+          <div class="form-actions"><button class="btn primary" type="submit">保存</button><button id="clearCase" class="btn secondary" type="button">入力を消す</button></div>
+        </form>
+        <div><div id="caseList" class="case-list"></div><div id="outlinePreview" class="panel outline hidden"></div></div>
+      </div>
+    </section>
+
+    <section id="view-mock" class="view">
+      <div id="mockSetup">
+        <div class="page-head"><div><p class="eyebrow">本番形式</p><h1>CBTシミュレーション</h1></div></div>
+        <div class="mock-grid">
+          <button class="mock-option" data-run-mock="a1"><b>A-1</b><span>50分・4肢択一</span><small>収録問題から出題</small></button>
+          <button class="mock-option" data-run-mock="a2"><b>A-2</b><span>40分・4肢択一</span><small>収録問題から出題</small></button>
+          <button class="mock-option" data-run-mock="b1"><b>B-1</b><span>90分・記述式</span><small>根拠抽出と言い換え</small></button>
+          <button class="mock-option" data-run-mock="b2"><b>B-2</b><span>120分・論述式</span><small>骨子から全文入力</small></button>
+        </div>
+      </div>
+      <div id="mockExam" class="cbt hidden"></div>
+    </section>
+
+    <section id="view-progress" class="view">
+      <div class="page-head"><div><p class="eyebrow">学習状況</p><h1>迷いまで見える記録</h1></div><div><button id="exportData" class="btn secondary">記録を書き出す</button><label class="btn secondary file-label">読み込む<input id="importData" type="file" accept="application/json"></label></div></div>
+      <div id="progressSummary" class="report-grid"></div>
+      <div class="panel"><h2>つまずいた理由</h2><div id="reasonReport"></div></div>
+      <div class="panel danger-panel"><h2>データ管理</h2><button id="resetData" class="btn danger">学習記録を初期化</button></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="メインメニュー">
+    <button class="active" data-nav="home"><span>⌂</span>ホーム</button>
+    <button data-nav="glossary"><span>あ</span>用語</button>
+    <button data-nav="mock"><span>▤</span>本番形式</button>
+    <button data-nav="progress"><span>◫</span>記録</button>
+  </nav>
+
+  <dialog id="termDialog" class="term-dialog"><button class="dialog-close" aria-label="閉じる">×</button><div id="termContent"></div></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="./data/questions.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "ST反射トレーナー 2026",
+  "short_name": "ST反射",
+  "description": "ゼロからITストラテジスト試験4科目の合格を目指す反射型学習アプリ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fb",
+  "theme_color": "#0b1733",
+  "orientation": "any",
+  "icons": [
+    {"src":"./icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}
